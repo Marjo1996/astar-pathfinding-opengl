@@ -23,8 +23,15 @@ static const int sizeY = 600;
 static const int cellSize = 15;
 ```
 
-In `pathfinding/` there is the core of the aStar algorithm[1].
-
+In `pathfinding/` there is the core of the aStar algorithm[1]. I edited the heuristics (see `pathfinding/node.cpp`) as below, to obtain a good performance and result:
+```cpp
+// Euclidian Distance
+d = 14 * (int)sqrt(rd*rd+cd*cd);
+```
+That is an Euclidean distance, multiplied by 14 (please note that 10 is the scale of penalization, as you can see below).
+```cpp
+GValue += ((i % 2 == 0 ? 10 : 14));
+```
 ## Credits 
 
 [1] https://www.bogotobogo.com/Algorithms/path_finding_algorithm.php
