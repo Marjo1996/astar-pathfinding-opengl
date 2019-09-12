@@ -4,6 +4,10 @@ This repository contains a complete VS2017 solution (with precompiled libraries 
 
 You can interact with the application using the keyboard and the mouse, selecting the start point and the end point and adding/removing collision points. 
 
+## Download:
+
+https://github.com/fabiomarigo7/astar-pathfinding-opengl/releases
+
 ## How does the application work?
 
 Here some screenshots:
