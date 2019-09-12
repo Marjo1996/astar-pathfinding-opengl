@@ -15,7 +15,7 @@ Here some screenshots:
 
 ## How to easily edit the application?
 
-In `source/global.hpp`:
+In `source/global.hpp` you can modify the Window/Grid size and the cell size:
 
 ```cpp
 static const int sizeX = 600;
