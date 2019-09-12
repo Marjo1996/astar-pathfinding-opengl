@@ -24,7 +24,6 @@ const int &Node::getHValue(const Location& locDest) const {
 	cd = locDest.col - cPos;
 
 	// Euclidian Distance
-	//d = static_cast<int>(sqrt((double)(rd*rd+cd*cd)));
 	d = 14 * (int)sqrt(rd*rd+cd*cd);
 
 	// Manhattan distance
