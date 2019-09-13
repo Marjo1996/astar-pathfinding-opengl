@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.779
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AStarOpenGL", "AStarOpenGL\AStarOpenGL.vcxproj", "{960D8190-9CA4-4080-90F8-55F361CDD0BD}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AStarOpenGL", "AStarOpenGL.vcxproj", "{960D8190-9CA4-4080-90F8-55F361CDD0BD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -12,14 +12,14 @@ https://github.com/fabiomarigo7/astar-pathfinding-opengl/releases
 
 Here some screenshots:
 
-![i1](/imgs/image0.png)
-![i2](/imgs/image1.png)
-![i3](/imgs/image2.png)
-![i4](/imgs/image3.png)
+![i1](/img/image0.png)
+![i2](/img/image1.png)
+![i3](/img/image2.png)
+![i4](/img/image3.png)
 
 ## How to easily edit the application?
 
-In `source/global.hpp` you can modify the Window/Grid size and the cell size:
+In `src/source/global.hpp` you can modify the Window/Grid size and the cell size:
 
 ```cpp
 static const int sizeX = 600;
@@ -27,7 +27,7 @@ static const int sizeY = 600;
 static const int cellSize = 15;
 ```
 
-In `pathfinding/` there is the core of the aStar algorithm[1]. I edited the heuristics (see `pathfinding/node.cpp`) as below, to obtain a good performance and result:
+In `src/pathfinding/` there is the core of the aStar algorithm[1]. I edited the heuristics (see `src/pathfinding/node.cpp`) as below, to obtain a good performance and result:
 ```cpp
 // Euclidian Distance
 d = 14 * (int)sqrt(rd*rd+cd*cd);
