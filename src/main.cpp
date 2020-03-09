@@ -6,6 +6,9 @@
 
 #include "pathfinding/a_star.h"
 
+#include <LUA/lua.hpp>
+#include <LuaBridge/LuaBridge.h>
+
 
 namespace GLB {
 	bool WINDOW_CLOSE = false;
@@ -24,6 +27,22 @@ namespace PATH {
 	int DIR_MAP[sizeY / cellSize][sizeX / cellSize] = { 0 };
 	int START_X = -1, START_Y = -1, FINAL_X = -1, FINAL_Y = -1;
 }
+
+
+void printMessage(const std::string& s) {
+	std::cout << s << std::endl;
+}
+
+using namespace luabridge;
+
+void readAndExecuteScript() {
+	lua_State* L = luaL_newstate();
+	luaL_openlibs(L);
+	getGlobalNamespace(L).addFunction("Print", printMessage);
+	luaL_dofile(L, "hello.lua");
+	lua_pcall(L, 0, 0, 0);
+}
+
 
 using namespace GLB;
 using namespace PATH;
@@ -52,6 +71,11 @@ void ui_render();
 
 
 int main() {
+
+	readAndExecuteScript();
+
+
+
 
 	PROJECTION = glm::ortho(0.0f, (float)sizeX, 0.0f, (float)sizeY, -100.0f, 100.0f);
 
