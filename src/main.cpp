@@ -37,10 +37,50 @@ using namespace luabridge;
 
 void readAndExecuteScript() {
 	lua_State* L = luaL_newstate();
+	/*Calling C++ from Lua*/
 	luaL_openlibs(L);
 	getGlobalNamespace(L).addFunction("Print", printMessage);
-	luaL_dofile(L, "hello.lua");
-	lua_pcall(L, 0, 0, 0);
+	luaL_loadfile(L, "hello.lua");
+
+	int result = lua_pcall(L, 0, 0, 0);
+
+	//Pop the function call
+	//lua_pop(L, 1);
+
+	/*Calling Lua from C++*/
+	luaL_dofile(L, "move.lua");
+
+	/*2 arguments sent to function moveTo*/
+	lua_getglobal(L, "moveTo");
+	lua_pushnumber(L, 5);
+	lua_pushnumber(L, 6);
+
+	/*Checking errors*/
+	if (lua_pcall(L, 2, 2, 0) != 0) {
+		std::cout << "ERROR ON CALLING FUNCTION: " << lua_tostring(L, -1) << std::endl;
+		return;
+	}
+
+	if (!lua_isnumber(L, -1)) {
+		std::cout << "ERROR ON X RETURNING TYPE" << std::endl;
+		return;
+	}
+
+	if (!lua_isnumber(L, -2)) {
+		std::cout << "ERROR ON Y RETURNING TYPE" << std::endl;
+		return;
+	}
+
+	//Get the returned values
+	int x = lua_tonumber(L, -1);
+	int y = lua_tonumber(L, -2);
+
+	//Pop the values (get the stack clean)
+	lua_pop(L, 2);
+
+	std::cout << "Moved to (" << x << ", " << y << ")" << std::endl;
+
+	return;
 }
 
 
