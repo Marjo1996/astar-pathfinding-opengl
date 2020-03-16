@@ -33,29 +33,64 @@ void printMessage(const std::string& s) {
 	std::cout << s << std::endl;
 }
 
+class Unit {
+	public :
+		int getX() {
+			return 10;
+		}
+};
+
 using namespace luabridge;
 
 void readAndExecuteScript() {
 	lua_State* L = luaL_newstate();
-	/*Calling C++ from Lua*/
+	/*LuaBridge initialization*/
 	luaL_openlibs(L);
+	
+	//Adding printMessage C++ function to Lua context
 	getGlobalNamespace(L).addFunction("Print", printMessage);
+
+	//Adding Unit class to Lua context
+	getGlobalNamespace(L)
+		.beginClass<Unit>("Unit")
+		//if we wanted to add some data...
+		//.addData<float>("value", &Unit::value)
+		//we want to test a function here
+		.addFunction("getX", &Unit::getX)
+		.endClass();
+
+	// First example: we load a file in which printMessage function is called as Print()
 	luaL_loadfile(L, "hello.lua");
 
+	//We execute the loaded file
 	int result = lua_pcall(L, 0, 0, 0);
 
-	//Pop the function call
-	//lua_pop(L, 1);
-
-	/*Calling Lua from C++*/
+	/*Calling Lua from C++: Executing the script containing a function in order to load it*/
 	luaL_dofile(L, "move.lua");
 
+	Unit myUnit; // single instance
+
+	// lookup script function in global table
+	LuaRef processFunc = getGlobal(L, "moveTo");
+
+	// check if LoaRef is a function. If so, we execute it by passing the needed parameter
+	if (processFunc.isFunction()) {
+		processFunc(&myUnit);
+	}
+
+	/*Check the the number of elements in the stack*/
+	std::cout << lua_gettop(L) << std::endl;
+
+	/*We load now a different file*/
+	luaL_dofile(L, "moveTo.lua");
+
+	/*Finally, we try a normal function call from C++ to Lua*/
 	/*2 arguments sent to function moveTo*/
 	lua_getglobal(L, "moveTo");
 	lua_pushnumber(L, 5);
 	lua_pushnumber(L, 6);
 
-	/*Checking errors*/
+	///*Checking errors*/
 	if (lua_pcall(L, 2, 2, 0) != 0) {
 		std::cout << "ERROR ON CALLING FUNCTION: " << lua_tostring(L, -1) << std::endl;
 		return;
@@ -71,11 +106,11 @@ void readAndExecuteScript() {
 		return;
 	}
 
-	//Get the returned values
-	int x = lua_tonumber(L, -1);
-	int y = lua_tonumber(L, -2);
+	////Get the returned values
+	int x = lua_tonumber(L, -2);
+	int y = lua_tonumber(L, -1);
 
-	//Pop the values (get the stack clean)
+	////Pop the values (get the stack clean)
 	lua_pop(L, 2);
 
 	std::cout << "Moved to (" << x << ", " << y << ")" << std::endl;

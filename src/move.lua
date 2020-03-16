@@ -1,4 +1,5 @@
-function moveTo(x, y)
-	print('Moving unit!')
-	return x,y
+function moveTo(unit)
+	print(unit:getX())
+	--Print(unit)
+	--return x,y
 end
